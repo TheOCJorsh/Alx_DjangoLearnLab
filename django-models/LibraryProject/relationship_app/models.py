@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Author model
 class Author(models.Model):
@@ -6,7 +8,6 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
-
 
 # Book model
 class Book(models.Model):
@@ -19,7 +20,6 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-
 # Library model
 class Library(models.Model):
     name = models.CharField(max_length=150)
@@ -27,7 +27,6 @@ class Library(models.Model):
 
     def __str__(self):
         return self.name
-
 
 # Librarian model
 class Librarian(models.Model):
@@ -39,3 +38,17 @@ class Librarian(models.Model):
 
     def __str__(self):
         return self.name
+
+# UserProfile model to extend Django's User model with roles
+class UserProfile(models.Model):
+    ROLE_CHOICES = [
+        ('Admin', 'Admin'),
+        ('Librarian', 'Librarian'),
+        ('Member', 'Member'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Member')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
