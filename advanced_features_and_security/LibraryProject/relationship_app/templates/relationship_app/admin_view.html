@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Access</h1>
+    <p>Welcome, Admin. You have full access.</p>
+
+    <h3>Administrative Features:</h3>
+        <ul class="admin-features">
+            <li>👥 Manage users and their roles</li>
+            <li>📚 Access to books and library operations</li>
+            <li>🏛️ Manage library settings and configurations</li>
+            <li>📊 View system reports and analytics</li>
+            <li>🔐 Manage permissions and security settings</li>
+        </ul>
+
+        <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin-top: 20px;">
+            <strong>Note:</strong> As an administrator, you have unrestricted access to all system functions.
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="{% url 'list_books' %}">📚 View Books</a>
+        <a href="{% url 'logout' %}">🚪 Logout</a>
+    </div>
+</body>
+</html>
