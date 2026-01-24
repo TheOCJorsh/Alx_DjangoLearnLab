@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List</title>
+</head>
+<body>
+
+<h1>Available Books</h1>
+
+<!-- SEARCH FORM (GET is safe, but still sanitized by Django) -->
+<form method="get">
+    {% csrf_token %}
+    <input type="text" name="q" placeholder="Search books">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for book in books %}
+        <li>
+            {{ book.title|escape }} by {{ book.author|escape }}
+        </li>
+    {% empty %}
+        <li>No books found.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
