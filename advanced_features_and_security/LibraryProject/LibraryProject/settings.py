@@ -110,9 +110,29 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
-SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
+
+# HTTPS settings
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+"""
+HTTPS & Security Configuration Summary:
+
+- SECURE_SSL_REDIRECT forces HTTPS connections in production
+- HSTS ensures browsers always use HTTPS
+- Secure cookies prevent session hijacking
+- Security headers protect against XSS and clickjacking
+
+NOTE:
+These settings must only be fully enabled when HTTPS
+is properly configured at the web server level.
+"""
