@@ -4,12 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from .forms import UserRegisterForm, UpdateUserForm
-from django.views.generic import (
-    ListView, DetailView, CreateView, UpdateView, DeleteView
-)
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from .models import Post
+from .models import Post, Comment
 
 
 def register(request):
