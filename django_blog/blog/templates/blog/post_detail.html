@@ -11,3 +11,30 @@
 {% endif %}
 
 {% endblock %}
+
+<hr>
+<h3>Comments</h3>
+
+{% for comment in object.comments.all %}
+    <p><strong>{{ comment.author }}</strong>: {{ comment.content }}</p>
+    <small>{{ comment.created_at }}</small>
+
+    {% if user == comment.author %}
+        <a href="{% url 'edit-comment' comment.pk %}">Edit</a>
+        <a href="{% url 'delete-comment' comment.pk %}">Delete</a>
+    {% endif %}
+    <hr>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+    <h4>Add Comment</h4>
+    <form method="POST" action="{% url 'add-comment' object.pk %}">
+        {% csrf_token %}
+        <textarea name="content" rows="3"></textarea>
+        <button type="submit">Post Comment</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> to comment.</p>
+{% endif %}
