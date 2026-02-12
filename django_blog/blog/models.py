@@ -12,6 +12,8 @@ class Post(models.Model):
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    tags = TaggableManager()  # Using django-taggit for tagging functionality
+
 
     def __str__(self):
         return self.title
@@ -29,3 +31,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
+

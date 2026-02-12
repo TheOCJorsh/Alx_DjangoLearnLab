@@ -24,6 +24,12 @@
         <a href="{% url 'delete-comment' comment.pk %}">Delete</a>
     {% endif %}
     <hr>
+
+    <p>Tags:
+    {% for tag in post.tags.all %}
+        <a href="{% url 'tagged-posts' tag.slug %}">#{{ tag }}</a>
+    {% endfor %}
+    </p>
 {% empty %}
     <p>No comments yet.</p>
 {% endfor %}
@@ -38,3 +44,5 @@
 {% else %}
     <p><a href="{% url 'login' %}">Login</a> to comment.</p>
 {% endif %}
+
+
