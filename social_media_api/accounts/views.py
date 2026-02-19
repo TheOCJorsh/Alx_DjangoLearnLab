@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions, viewsets
+from rest_framework import generics, status, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.authtoken.models import Token
 from .serializers import RegisterSerializer, LoginSerializer
@@ -76,3 +76,8 @@ class UserViewSet(viewsets.ModelViewSet):
         user_to_unfollow = self.get_object()
         request.user.following.remove(user_to_unfollow)
         return Response({"message": "Successfully unfollowed user"})
+    
+    
+class UserListView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
