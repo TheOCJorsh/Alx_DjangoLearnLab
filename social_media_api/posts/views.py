@@ -1,21 +1,17 @@
 from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Post, Comment
+from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
-from rest_framework import generics, permissions
-from .models import Post
-from .serializers import PostSerializer
+from rest_framework import permissions, generics, status
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 
-from .models import Post, Like
 from notifications.models import Notification
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -60,15 +56,19 @@ class FeedView(generics.GenericAPIView):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
 
-    if Like.objects.filter(user=request.user, post=post).exists():
+    post = generics.get_object_or_404(Post, pk=pk)
+
+    like, created = Like.objects.get_or_create(
+        user=request.user,
+        post=post
+    )
+
+    if not created:
         return Response(
             {"error": "You already liked this post"},
             status=status.HTTP_400_BAD_REQUEST
         )
-
-    Like.objects.create(user=request.user, post=post)
 
     # Create notification
     if post.author != request.user:
@@ -81,7 +81,6 @@ def like_post(request, pk):
         )
 
     return Response({"message": "Post liked successfully"})
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
