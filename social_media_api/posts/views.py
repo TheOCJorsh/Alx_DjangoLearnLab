@@ -59,10 +59,7 @@ def like_post(request, pk):
 
     post = generics.get_object_or_404(Post, pk=pk)
 
-    like, created = Like.objects.get_or_create(
-        user=request.user,
-        post=post
-    )
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
 
     if not created:
         return Response(
@@ -70,17 +67,15 @@ def like_post(request, pk):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    # Create notification
     if post.author != request.user:
         Notification.objects.create(
             recipient=post.author,
             actor=request.user,
-            verb="liked your post",
-            content_type=ContentType.objects.get_for_model(post),
-            object_id=post.id
+            verb="liked your post"
         )
 
     return Response({"message": "Post liked successfully"})
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
