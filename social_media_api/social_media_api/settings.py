@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import dj_database_url
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,7 +83,7 @@ WSGI_APPLICATION = 'social_media_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        dj_database_url.config(default=config('DATABASE_URL'))
+        dj_database_url.config(default=os.environ.get('postgresql://social_media_api_mszb_user:TzbmtjTNHjTlo5boVL4Tr4fK5xJnyb26@dpg-d6diecnfte5s73ddrnu0-a.oregon-postgres.render.com/social_media_api_mszb'))
     }
 }
 
@@ -150,3 +151,5 @@ CSRF_COOKIE_SECURE = True
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
+
+PORT = os.environ.get("PORT", "8000")
